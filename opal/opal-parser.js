@@ -5077,8 +5077,8 @@ Opal.modules["opal/parser"] = function(Opal) {
           file = "(string)"
         }
         try {
-          if ((($a = $scope.get('ENV')['$[]']("RACC_DEBUG")['$!']()['$!']()) !== nil && (!$a.$$is_boolean || $a == true))) {
-            self.yydebug = true};
+          /*if ((($a = $scope.get('ENV')['$[]']("RACC_DEBUG")['$!']()['$!']()) !== nil && (!$a.$$is_boolean || $a == true))) {
+            self.yydebug = true};*/
           self.file = file;
           self.scopes = [];
           self.lexer = $scope.get('Lexer').$new(source, file);
