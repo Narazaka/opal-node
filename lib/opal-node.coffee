@@ -15,6 +15,7 @@ parser = fs.readFileSync(parserFile).toString()
 vm = require 'vm'
 vm.runInThisContext(source, sourceFile)
 vm.runInThisContext(parser, parserFile)
+Opal.require("opal-parser")
 
 class OpalNode
   @load_path: [__dirname+'/../opal', __dirname]
@@ -31,8 +32,8 @@ class OpalNode
     if options and options.klass isnt Opal.Hash
       keys = (key for key, value of options)
       options = Opal.hash2(keys, options)
-    compiler = Opal.Opal.Compiler.$new()
-    source = compiler.$compile(ruby, options)
+    compiler = Opal.Opal.$$scope.get("Compiler").$new(ruby, options)
+    source = compiler.$compile()
 
     for required in compiler.$requires()
       OpalNode.require required
@@ -83,6 +84,7 @@ class OpalNode
     ruby = fs.readFileSync("#{full_path}").toString()
     OpalNode.loaded[filename] = true
     if full_path.match(/\.js$/)
+      global.require = require
       vm.runInThisContext(ruby, filename)
     else
       OpalNode.run(ruby, filename)
